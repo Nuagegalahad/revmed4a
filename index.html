@@ -521,26 +521,6 @@
       box-shadow: 0 0 0 3px rgba(196, 96, 122, 0.08);
     }
 
-    select#chapterThemeSelect {
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-family: "Baloo 2", cursive;
-      font-size: 0.95rem;
-      padding: 12px 14px;
-      width: 100%;
-      background: white;
-      color: var(--text);
-      min-height: var(--touch-size);
-      appearance: auto;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    select#chapterThemeSelect:focus {
-      border-color: var(--navy);
-      box-shadow: 0 0 0 3px rgba(196, 96, 122, 0.08);
-    }
-
     .btn-add {
       background: linear-gradient(145deg, var(--navy), var(--navy2));
       border: none;
@@ -858,7 +838,6 @@
       .filter-tab { font-size: 0.65rem; padding: 6px 12px; }
       .btn-add { font-size: 0.85rem; }
       input[type="text"] { font-size: 0.85rem; padding: 10px 12px; }
-      select#chapterThemeSelect { font-size: 0.85rem; padding: 10px 12px; }
       .toast { font-size: 0.8rem; padding: 10px 16px; }
       .rewards-legend span { font-size: 0.55rem; }
     }
@@ -956,19 +935,10 @@
   <!-- RÉCOMPENSES -->
   <div class="rewards-section">
     <div class="rewards-title">
-      <span>🏆 Récompenses</span>
+      <span>Récompenses 🏆</span>
       <span id="pointsDisplay">0.00 €</span>
     </div>
     <div id="rewardsList"></div>
-    <div class="rewards-legend">
-      <strong>Barème :</strong>
-      <span>Dermato → 3.125 €</span>
-      <span>Infectio → 6.25 €</span>
-      <span>Pneumo → 12.50 €</span>
-      <span>Cardio+Neuro → 25 €</span>
-      <span>Traumato → 50 €</span>
-      <br /><span style="background:transparent; color:var(--muted); font-size:0.6rem;">(cumulable jusqu'à 100 €)</span>
-    </div>
   </div>
 
   <!-- CONGRATS BANNER -->
@@ -990,16 +960,17 @@
       </div>
       <div class="field-group">
         <div class="field-label">Thème / Spécialité</div>
-        <select id="chapterThemeSelect">
-          <option value="Cardiologie">Cardiologie</option>
-          <option value="Dermatologie">Dermatologie</option>
-          <option value="Maladie infectieuse">Maladie infectieuse</option>
-          <option value="Neurologie">Neurologie</option>
-          <option value="Pneumologie">Pneumologie</option>
-          <option value="Psychiatrie">Psychiatrie</option>
-          <option value="Rhumatologie">Rhumatologie</option>
-          <option value="Traumatologie">Traumatologie</option>
-        </select>
+        <input type="text" id="chapterTheme" list="themeList" placeholder="ex : Cardiologie" />
+        <datalist id="themeList">
+          <option value="Cardiologie" />
+          <option value="Dermatologie" />
+          <option value="Maladie infectieuse" />
+          <option value="Neurologie" />
+          <option value="Pneumologie" />
+          <option value="Psychiatrie" />
+          <option value="Rhumatologie" />
+          <option value="Traumatologie" />
+        </datalist>
       </div>
       <button class="btn-add" id="addChapterBtn">➕ Ajouter le chapitre</button>
     </div>
@@ -1045,7 +1016,6 @@
 
   // ================================================================
   // 2. DONNÉES INITIALES (156 chapitres, 11 révisés)
-  //    Avec "Maladie infectieuse" en minuscules
   // ================================================================
   const DEFAULT_CHAPTERS = [
     // ---- Cardiologie (13, 0 révisés) ----
@@ -1286,7 +1256,7 @@
   const addForm = $('addForm');
   const addChapterBtn = $('addChapterBtn');
   const chapterNameInput = $('chapterName');
-  const chapterThemeSelect = $('chapterThemeSelect');
+  const chapterThemeInput = $('chapterTheme');
   const rewardsList = $('rewardsList');
   const pointsDisplay = $('pointsDisplay');
   const toast = $('toast');
@@ -1315,10 +1285,10 @@
     ringPct.textContent = pct + '%';
 
     let msg, sub;
-    if (pct === 0) { msg = "Bienvenue Piso !"; sub = "Commence tes révisions 💪"; }
+    if (pct === 0) { msg = "Bienvenue Piso !"; sub = "Commence tes révisions"; }
     else if (pct < 20) { msg = "Belle entrée en matière Piso"; sub = "Continue, ça va venir !"; }
-    else if (pct < 40) { msg = "Bon rythme Piso !"; sub = "Tu es sur la bonne voie 🚀"; }
-    else if (pct < 60) { msg = "Motivée Piso !"; sub = "La moitié est faite, tiens bon 💪"; }
+    else if (pct < 40) { msg = "Bon rythme Piso !"; sub = "Tu es sur la bonne voie"; }
+    else if (pct < 60) { msg = "Motivée Piso !"; sub = "La moitié est faite, tiens bon"; }
     else if (pct < 80) { msg = "Excellent Piso !"; sub = "Plus que quelques chapitres !"; }
     else if (pct < 100) { msg = "Presque fini Piso !"; sub = "Dernière ligne droite 🏁"; }
     else { msg = "🎉 Mission accomplie Piso !"; sub = "Tu as révisé tous les chapitres !"; }
@@ -1368,7 +1338,7 @@
     rewardsList.innerHTML = html;
 
     newlyUnlocked.forEach(r => {
-      showToast(`🎉 Félicitations Piso ! Tu as débloqué ${r.amount.toFixed(2)} € (${r.label}) !`);
+      showToast(`Félicitations Piso ! Tu as débloqué ${r.amount.toFixed(2)} € (${r.label}) !`);
     });
   }
 
@@ -1501,8 +1471,7 @@
     update[newKey] = newChapter;
     dataRef.update(update);
     chapterNameInput.value = '';
-    // Réinitialiser le select à la première option
-    chapterThemeSelect.selectedIndex = 0;
+    chapterThemeInput.value = '';
     addForm.classList.remove('open');
     addToggle.classList.remove('open');
   }
@@ -1551,10 +1520,11 @@
   });
 
   addChapterBtn.addEventListener('click', () => {
-    addChapter(chapterNameInput.value, chapterThemeSelect.value);
+    addChapter(chapterNameInput.value, chapterThemeInput.value);
   });
 
   chapterNameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addChapterBtn.click(); });
+  chapterThemeInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addChapterBtn.click(); });
 
   filterTabs.forEach(tab => {
     tab.addEventListener('click', () => {
