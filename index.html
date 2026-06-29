@@ -16,7 +16,7 @@
 
   <style>
     /* ============================================================
-       STYLE OPTIMISÉ POUR SMARTPHONE (CENTRAGE DE LA JAUGE CORRIGÉ)
+       STYLE OPTIMISÉ POUR SMARTPHONE (JAUGE CENTRÉE)
        ============================================================ */
     :root {
       --cream: #FFF8F0;
@@ -36,8 +36,6 @@
       --radius-sm: 10px;
       --transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       --font-base: 16px;
-      --font-small: 14px;
-      --font-xs: 12px;
       --touch-size: 44px;
     }
 
@@ -169,7 +167,7 @@
       word-break: break-word;
     }
 
-    /* ===== PROGRESS (JAUGE CORRIGÉE) ===== */
+    /* ===== PROGRESS RING – VERSION CENTRÉE ===== */
     .progress-section {
       display: flex;
       align-items: center;
@@ -185,13 +183,10 @@
 
     .ring-wrap {
       position: relative;
-      width: 72px;
-      height: 72px;
+      width: 80px;
+      height: 80px;
       flex-shrink: 0;
-      /* Centrage du contenu interne */
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      aspect-ratio: 1/1;
     }
 
     .ring-wrap svg {
@@ -204,13 +199,13 @@
     .ring-bg {
       fill: none;
       stroke: var(--border);
-      stroke-width: 6;
+      stroke-width: 7;
     }
 
     .ring-fill {
       fill: none;
       stroke: url(#ringGrad);
-      stroke-width: 6;
+      stroke-width: 7;
       stroke-linecap: round;
       transition: stroke-dashoffset 0.6s ease;
     }
@@ -219,28 +214,28 @@
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-weight: 800;
       line-height: 1.2;
       padding: 4px;
       pointer-events: none;
+      font-weight: 800;
     }
 
     .ring-pct {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: var(--navy);
       line-height: 1;
       margin-bottom: 0;
     }
 
     .ring-sub {
-      font-size: 0.45rem;
+      font-size: 0.5rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -854,7 +849,6 @@
       .stat-num { font-size: 1.6rem; }
       .stat-label { font-size: 0.55rem; }
 
-      /* Ajustement de la jauge pour mobile */
       .ring-wrap {
         width: 64px;
         height: 64px;
@@ -887,6 +881,7 @@
       }
       .header h1 { font-size: 1.2rem; }
       .stat-num { font-size: 1.4rem; }
+
       .ring-wrap {
         width: 56px;
         height: 56px;
@@ -897,6 +892,7 @@
       .ring-sub {
         font-size: 0.35rem;
       }
+
       .chapter-item { padding: 6px 10px; gap: 8px; }
       .custom-cb { width: 22px; height: 22px; min-width: 22px; min-height: 22px; }
       .btn-icon { width: 34px; height: 34px; font-size: 0.85rem; }
@@ -1063,16 +1059,171 @@
   // 2. DONNÉES INITIALES (156 chapitres, 11 révisés)
   // ================================================================
   const DEFAULT_CHAPTERS = [
-    // ... (je garde les mêmes données que précédemment pour ne pas alourdir)
-    // Elles sont identiques à celles déjà fournies.
-    // Pour gagner de la place, je les mets en une ligne (mais vous devez les garder)
-    // Si vous voulez je peux les écrire complètement, mais elles sont inchangées.
+    // ---- Cardiologie (13, 0 révisés) ----
+    { name: "HTA essentielle", theme: "Cardiologie", done: false },
+    { name: "Crise aiguë hypertensive", theme: "Cardiologie", done: false },
+    { name: "Insuffisance mitrale (IM)", theme: "Cardiologie", done: false },
+    { name: "Rétrécissement mitral (RM)", theme: "Cardiologie", done: false },
+    { name: "Athérome", theme: "Cardiologie", done: false },
+    { name: "SCC (Syndrome coronarien chronique)", theme: "Cardiologie", done: false },
+    { name: "SCA ST⊖", theme: "Cardiologie", done: false },
+    { name: "SCA ST⊕", theme: "Cardiologie", done: false },
+    { name: "ICCons (Insuffisance cardiaque congestive)", theme: "Cardiologie", done: false },
+    { name: "OAP cardiogenique", theme: "Cardiologie", done: false },
+    { name: "Choc cardiogénique", theme: "Cardiologie", done: false },
+    { name: "HTAP", theme: "Cardiologie", done: false },
+    { name: "Insuffisance tricuspidienne", theme: "Cardiologie", done: false },
+    // ---- Dermatologie (14, 4 révisés) ----
+    { name: "Psoriasis", theme: "Dermatologie", done: true },
+    { name: "Syphilis", theme: "Dermatologie", done: true },
+    { name: "Dermatite atopique", theme: "Dermatologie", done: true },
+    { name: "Eczéma de contact", theme: "Dermatologie", done: true },
+    { name: "Allergies cutanées", theme: "Dermatologie", done: false },
+    { name: "Infections cutanées", theme: "Dermatologie", done: false },
+    { name: "Toxidermie", theme: "Dermatologie", done: false },
+    { name: "Chromoblastomycose", theme: "Dermatologie", done: false },
+    { name: "Lèpre", theme: "Dermatologie", done: false },
+    { name: "Ulcérations bucco-génitales", theme: "Dermatologie", done: false },
+    { name: "Érythrodermie", theme: "Dermatologie", done: false },
+    { name: "Grosse jambe rouge aiguë", theme: "Dermatologie", done: false },
+    { name: "Érythème noueux", theme: "Dermatologie", done: false },
+    { name: "Gale (scabiose)", theme: "Dermatologie", done: false },
+    // ---- MALADIE INFECTIEUSE (24, 0 révisés) ----
+    { name: "Généralité sur la prévention et contrôle des infections", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Hygiène des mains", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Tenue de soignant", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Les précautions complémentaires d'hygiène", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Diarrhée aiguë fébrile", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Fièvre typhoïde", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Tétanos", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Bilharziose", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Peste", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Méningite et méningite encéphalites infectieuses", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Méningite virale", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Méningo encéphalite à liquide clair", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Paludisme", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Endocardite infectieuse", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Ascaridiose, anguillulose, taenisis", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Amibiase", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Toxoplasmose", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Rage", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Infections urinaires", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "AES", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "Arbovirose (dingue, ?)", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "PAC", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "IST", theme: "MALADIE INFECTIEUSE", done: false },
+    { name: "VIH", theme: "MALADIE INFECTIEUSE", done: false },
+    // ---- Neurologie (33, 2 révisés) ----
+    { name: "AVC ischémique", theme: "Neurologie", done: true },
+    { name: "Migraine", theme: "Neurologie", done: false },
+    { name: "Épilepsie", theme: "Neurologie", done: false },
+    { name: "Névralgie du trijumeau", theme: "Neurologie", done: true },
+    { name: "Maladie de Parkinson", theme: "Neurologie", done: false },
+    { name: "Maladie d'Alzheimer", theme: "Neurologie", done: false },
+    { name: "Démence — PEC", theme: "Neurologie", done: false },
+    { name: "PEC mvt anormaux", theme: "Neurologie", done: false },
+    { name: "PEC hémiplégie", theme: "Neurologie", done: false },
+    { name: "Confusion mentale et PEC", theme: "Neurologie", done: false },
+    { name: "Neurocysticercose", theme: "Neurologie", done: false },
+    { name: "Myelite transverse aiguë", theme: "Neurologie", done: false },
+    { name: "SEP (Sclérose en plaques)", theme: "Neurologie", done: false },
+    { name: "Neuropathie diabétique (sd GB)", theme: "Neurologie", done: false },
+    { name: "PEC tb de la déglutition", theme: "Neurologie", done: false },
+    { name: "PEC d'une fatigabilité à l'effort", theme: "Neurologie", done: false },
+    { name: "Sclérose latérale amyotrophique", theme: "Neurologie", done: false },
+    { name: "Anomalie du LCR", theme: "Neurologie", done: false },
+    { name: "PEC syndrome myogène", theme: "Neurologie", done: false },
+    { name: "TVC (Thrombose veineuse cérébrale)", theme: "Neurologie", done: false },
+    { name: "Syndrome méningé spontané", theme: "Neurologie", done: false },
+    { name: "Pathologies radiculaires et tronculaires", theme: "Neurologie", done: false },
+    { name: "AVC hémorragique", theme: "Neurologie", done: false },
+    { name: "Encéphalopathie de Wernicke", theme: "Neurologie", done: false },
+    { name: "PEC céphalée", theme: "Neurologie", done: false },
+    { name: "Neurosyphilis", theme: "Neurologie", done: false },
+    { name: "Myasthénie auto-immune", theme: "Neurologie", done: false },
+    { name: "Polynévrite", theme: "Neurologie", done: false },
+    { name: "Polyradiculonévrite aiguë (sd de GB)", theme: "Neurologie", done: false },
+    { name: "PEC douleurs neuropathiques", theme: "Neurologie", done: false },
+    { name: "Hemorragie méningée spontanée", theme: "Neurologie", done: false },
+    { name: "Coeur pulmonaire chronique", theme: "Neurologie", done: false },
+    { name: "Généralité sur la tuberculose", theme: "Neurologie", done: false },
+    // ---- Pneumologie (29, 2 révisés) ----
+    { name: "PAC (Pneumonie aiguë communautaire)", theme: "Pneumologie", done: false },
+    { name: "Dilatation des bronches (DDB)", theme: "Pneumologie", done: false },
+    { name: "Pneumopathies interstitielles diffuses", theme: "Pneumologie", done: false },
+    { name: "Manifestation pulmonaire des connectivites", theme: "Pneumologie", done: false },
+    { name: "Insuffisance respiratoire aiguë", theme: "Pneumologie", done: false },
+    { name: "Aspergillose broncho pulmonaire", theme: "Pneumologie", done: false },
+    { name: "Staphylococcie pleuropulmonaire", theme: "Pneumologie", done: false },
+    { name: "TB pulmonaire commune", theme: "Pneumologie", done: false },
+    { name: "TB extra-pulmonaire", theme: "Pneumologie", done: false },
+    { name: "TB grave", theme: "Pneumologie", done: false },
+    { name: "TB et VIH", theme: "Pneumologie", done: true },
+    { name: "Moyen de diagnostic de la TB", theme: "Pneumologie", done: false },
+    { name: "Traitement de la TB pulm.", theme: "Pneumologie", done: false },
+    { name: "TB multirésistante", theme: "Pneumologie", done: true },
+    { name: "Pneumoconioses", theme: "Pneumologie", done: false },
+    { name: "OAP lésionnel / SDRA", theme: "Pneumologie", done: false },
+    { name: "BPCO", theme: "Pneumologie", done: false },
+    { name: "Embolie pulmonaire", theme: "Pneumologie", done: false },
+    { name: "Pleurésie", theme: "Pneumologie", done: false },
+    { name: "Cancer broncho-pulm. médicale", theme: "Pneumologie", done: false },
+    { name: "Asthme", theme: "Pneumologie", done: false },
+    { name: "Infection respiratoire basse aiguë", theme: "Pneumologie", done: false },
+    { name: "Abcès pulmonaire", theme: "Pneumologie", done: false },
+    { name: "Oedème pulmonaire", theme: "Pneumologie", done: false },
+    { name: "Manifestation respiratoire au cours de l'infection par le VIH", theme: "Pneumologie", done: false },
+    { name: "Pneumothorax", theme: "Pneumologie", done: false },
+    { name: "Pathologie médiastinale", theme: "Pneumologie", done: false },
+    { name: "Syndrome apnée du sommeil", theme: "Pneumologie", done: false },
+    { name: "Traitement tuberculose", theme: "Pneumologie", done: false },
+    // ---- Psychiatrie (17, 1 révisé) ----
+    { name: "Complications neuropsy de l'alcoolisme", theme: "Psychiatrie", done: false },
+    { name: "Suicide et crise suicidaire", theme: "Psychiatrie", done: false },
+    { name: "Hystérie", theme: "Psychiatrie", done: false },
+    { name: "Crises d'angoisse aiguë", theme: "Psychiatrie", done: false },
+    { name: "TAG (Trouble anxieux généralisé)", theme: "Psychiatrie", done: false },
+    { name: "BDA (Bouffée délirante aiguë)", theme: "Psychiatrie", done: false },
+    { name: "Confusion mentale — troubles", theme: "Psychiatrie", done: false },
+    { name: "Schizophrénie", theme: "Psychiatrie", done: false },
+    { name: "Psychose paranoïaque", theme: "Psychiatrie", done: false },
+    { name: "Psychose hallucinatoire chronique", theme: "Psychiatrie", done: true },
+    { name: "Dépression ou épisode dépressif caractérisé", theme: "Psychiatrie", done: false },
+    { name: "Accès maniaque", theme: "Psychiatrie", done: false },
+    { name: "Paraphrénie", theme: "Psychiatrie", done: false },
+    { name: "États névrotique (hystérie et TAG)", theme: "Psychiatrie", done: false },
+    { name: "Généralité sur les névroses", theme: "Psychiatrie", done: false },
+    { name: "Les pathologies psychiatriques", theme: "Psychiatrie", done: false },
+    { name: "Troubles psychiques de la grossesse et du post partum", theme: "Psychiatrie", done: false },
+    // ---- Rhumatologie (13, 1 révisé) ----
+    { name: "Rhumatisme microcristalline", theme: "Rhumatologie", done: false },
+    { name: "Spondylarthrite inflammatoire", theme: "Rhumatologie", done: false },
+    { name: "Goutte", theme: "Rhumatologie", done: false },
+    { name: "Arthrite juvénile idiopathique", theme: "Rhumatologie", done: false },
+    { name: "Généralité sur arthrose des membres", theme: "Rhumatologie", done: false },
+    { name: "Gonarthrose", theme: "Rhumatologie", done: false },
+    { name: "Coxarthrose", theme: "Rhumatologie", done: false },
+    { name: "Arthrose digitale", theme: "Rhumatologie", done: false },
+    { name: "Ostéoporose", theme: "Rhumatologie", done: true },
+    { name: "Lombosciatique et lombalgie", theme: "Rhumatologie", done: false },
+    { name: "Généralité sur les tendinopathies", theme: "Rhumatologie", done: false },
+    { name: "Infections ostéo articulaires (arthrite septique)", theme: "Rhumatologie", done: false },
+    { name: "Spondylodiscite infectieuse à germes banales", theme: "Rhumatologie", done: false },
+    // ---- Traumatologie (13, 1 révisé) ----
+    { name: "Pathologie de la coiffe des rotateurs", theme: "Traumatologie", done: false },
+    { name: "Ostéoarthrite TB", theme: "Traumatologie", done: false },
+    { name: "Traitement chir. de la gonarthrose", theme: "Traumatologie", done: false },
+    { name: "Traitement chir. de la coxarthrose", theme: "Traumatologie", done: false },
+    { name: "Sd de Legg-Perthes-Calphé", theme: "Traumatologie", done: false },
+    { name: "Luxation congénitale de la hanche", theme: "Traumatologie", done: true },
+    { name: "Épiphysiolyse fémorale supérieure", theme: "Traumatologie", done: false },
+    { name: "Ostéosarcome", theme: "Traumatologie", done: false },
+    { name: "Tumeur osseuse chez l'enfant", theme: "Traumatologie", done: false },
+    { name: "Ostéomyélite aiguë", theme: "Traumatologie", done: false },
+    { name: "Fracture chez l'enfant", theme: "Traumatologie", done: false },
+    { name: "Pied bot", theme: "Traumatologie", done: false },
+    { name: "Omarthrose", theme: "Traumatologie", done: false }
   ];
-
-  // Pour économiser de la place dans ce message, je ne répète pas les 156 chapitres.
-  // Vous devez les reprendre de votre dernier code ou de celui que je vous ai donné.
-  // Mais pour que votre code fonctionne, vous devez inclure le tableau DEFAULT_CHAPTERS complet.
-  // Je le mets en commentaire ici, mais dans votre fichier final, il doit être présent.
 
   // ================================================================
   // 3. RÉCOMPENSES PAR THÈME COMPLET
