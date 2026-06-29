@@ -15,9 +15,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <style>
-    /* ============================================================
-       STYLE OPTIMISÉ POUR SMARTPHONE (JAUGE CENTRÉE)
-       ============================================================ */
     :root {
       --cream: #FFF8F0;
       --coral: #E05A5A;
@@ -920,7 +917,7 @@
 <div class="content">
   <!-- HEADER -->
   <header class="header">
-    <h1>📚 Ma Révision Médicale</h1>
+    <h1>Ma Révision Médicale</h1>
     <div class="header-sub">Tableau de bord · 4ème année 2025/2026</div>
   </header>
 
@@ -928,15 +925,15 @@
   <div class="stats-row">
     <div class="stat-card total">
       <div class="stat-num" id="statTotal">156</div>
-      <div class="stat-label">📖 Total</div>
+      <div class="stat-label">Total</div>
     </div>
     <div class="stat-card done">
       <div class="stat-num" id="statDone">11</div>
-      <div class="stat-label">✅ Révisés</div>
+      <div class="stat-label">Révisés</div>
     </div>
     <div class="stat-card left">
       <div class="stat-num" id="statLeft">145</div>
-      <div class="stat-label">⏳ Restants</div>
+      <div class="stat-label">Restants</div>
     </div>
   </div>
 
@@ -971,15 +968,6 @@
       <span id="pointsDisplay">0.00 €</span>
     </div>
     <div id="rewardsList"></div>
-    <div class="rewards-legend">
-      <strong>Barème :</strong>
-      <span>Dermato → 3.125 €</span>
-      <span>Infectio → 6.25 €</span>
-      <span>Pneumo → 12.50 €</span>
-      <span>Cardio+Neuro → 25 €</span>
-      <span>Traumato → 50 €</span>
-      <br /><span style="background:transparent; color:var(--muted); font-size:0.6rem;">(cumulable jusqu'à 100 €)</span>
-    </div>
   </div>
 
   <!-- CONGRATS BANNER -->
@@ -996,11 +984,11 @@
     </div>
     <div class="add-form" id="addForm">
       <div class="field-group">
-        <div class="field-label">📝 Nom du chapitre</div>
+        <div class="field-label">Nom du chapitre</div>
         <input type="text" id="chapterName" placeholder="ex : Insuffisance cardiaque" />
       </div>
       <div class="field-group">
-        <div class="field-label">📂 Thème / Spécialité</div>
+        <div class="field-label">Thème / Spécialité</div>
         <input type="text" id="chapterTheme" list="themeList" placeholder="ex : Cardiologie" />
         <datalist id="themeList">
           <option value="Cardiologie" />
@@ -1019,15 +1007,14 @@
 
   <!-- SEARCH -->
   <div class="search-wrap">
-    <span class="search-icon">🔍</span>
     <input type="text" id="searchInput" placeholder="Rechercher un chapitre ou un thème…" />
   </div>
 
   <!-- FILTER TABS -->
   <div class="filter-tabs">
-    <button class="filter-tab active" data-filter="all">📋 Tous</button>
-    <button class="filter-tab" data-filter="todo">⏳ À réviser</button>
-    <button class="filter-tab" data-filter="done">✅ Révisés</button>
+    <button class="filter-tab active" data-filter="all">Tous</button>
+    <button class="filter-tab" data-filter="todo">À réviser</button>
+    <button class="filter-tab" data-filter="done">Révisés</button>
   </div>
 
   <!-- LIST -->
