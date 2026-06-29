@@ -807,6 +807,32 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* ===== ENGAGEMENT DE PAIEMENT ===== */
+    .payment-engagement {
+      margin-top: 30px;
+      padding: 16px 14px;
+      background: rgba(212, 120, 138, 0.06);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(200, 180, 160, 0.2);
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .payment-engagement strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .payment-engagement .icon {
+      font-size: 1rem;
+      margin-right: 6px;
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 480px) {
       :root {
@@ -840,6 +866,7 @@
       input[type="text"] { font-size: 0.85rem; padding: 10px 12px; }
       .toast { font-size: 0.8rem; padding: 10px 16px; }
       .rewards-legend span { font-size: 0.55rem; }
+      .payment-engagement { font-size: 0.7rem; padding: 12px 10px; }
     }
 
     @media (max-width: 360px) {
@@ -868,11 +895,13 @@
       .theme-badge { font-size: 0.55rem; padding: 2px 8px; }
       .rewards-section { padding: 10px 12px; }
       .reward-item { padding: 4px 0; gap: 6px; }
+      .payment-engagement { font-size: 0.65rem; padding: 10px 8px; }
     }
 
     /* Évite les débordements */
     .content, .header, .stats-row, .progress-section, .rewards-section,
-    .add-card, .search-wrap, .filter-tabs, .theme-section {
+    .add-card, .search-wrap, .filter-tabs, .theme-section,
+    .payment-engagement {
       max-width: 100%;
       overflow-wrap: break-word;
     }
@@ -991,6 +1020,14 @@
 
   <!-- LIST -->
   <div id="chapterList"></div>
+
+  <!-- ===== ENGAGEMENT DE PAIEMENT ===== -->
+  <div class="payment-engagement">
+    <span class="icon">📜</span>
+    <strong>Engagement de paiement</strong><br />
+    L’ensemble des gains cumulés (récompenses débloquées) sera versé à partir du <strong>mois de novembre 2026</strong>.
+  </div>
+
 </div>
 
 <!-- TOAST -->
