@@ -327,7 +327,6 @@
       background: var(--coral);
       color: white;
       box-shadow: 0 2px 10px rgba(224, 90, 90, 0.25);
-      /* animation supprimée */
     }
 
     .reward-info {
@@ -518,6 +517,26 @@
     }
 
     input[type="text"]:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(196, 96, 122, 0.08);
+    }
+
+    select#chapterThemeSelect {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: "Baloo 2", cursive;
+      font-size: 0.95rem;
+      padding: 12px 14px;
+      width: 100%;
+      background: white;
+      color: var(--text);
+      min-height: var(--touch-size);
+      appearance: auto;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    select#chapterThemeSelect:focus {
       border-color: var(--navy);
       box-shadow: 0 0 0 3px rgba(196, 96, 122, 0.08);
     }
@@ -717,7 +736,6 @@
       background: linear-gradient(135deg, var(--green), #3CB870);
       border-color: transparent;
       box-shadow: 0 2px 10px rgba(76, 175, 130, 0.25);
-      /* animation supprimée */
     }
 
     .custom-cb.checked::after {
@@ -840,6 +858,7 @@
       .filter-tab { font-size: 0.65rem; padding: 6px 12px; }
       .btn-add { font-size: 0.85rem; }
       input[type="text"] { font-size: 0.85rem; padding: 10px 12px; }
+      select#chapterThemeSelect { font-size: 0.85rem; padding: 10px 12px; }
       .toast { font-size: 0.8rem; padding: 10px 16px; }
       .rewards-legend span { font-size: 0.55rem; }
     }
@@ -941,6 +960,15 @@
       <span id="pointsDisplay">0.00 €</span>
     </div>
     <div id="rewardsList"></div>
+    <div class="rewards-legend">
+      <strong>Barème :</strong>
+      <span>Dermato → 3.125 €</span>
+      <span>Infectio → 6.25 €</span>
+      <span>Pneumo → 12.50 €</span>
+      <span>Cardio+Neuro → 25 €</span>
+      <span>Traumato → 50 €</span>
+      <br /><span style="background:transparent; color:var(--muted); font-size:0.6rem;">(cumulable jusqu'à 100 €)</span>
+    </div>
   </div>
 
   <!-- CONGRATS BANNER -->
@@ -962,17 +990,16 @@
       </div>
       <div class="field-group">
         <div class="field-label">Thème / Spécialité</div>
-        <input type="text" id="chapterTheme" list="themeList" placeholder="ex : Cardiologie" />
-        <datalist id="themeList">
-          <option value="Cardiologie" />
-          <option value="Dermatologie" />
-          <option value="Maladie Infectueuse" />
-          <option value="Neurologie" />
-          <option value="Pneumologie" />
-          <option value="Psychiatrie" />
-          <option value="Rhumatologie" />
-          <option value="Traumatologie" />
-        </datalist>
+        <select id="chapterThemeSelect">
+          <option value="Cardiologie">Cardiologie</option>
+          <option value="Dermatologie">Dermatologie</option>
+          <option value="Maladie infectieuse">Maladie infectieuse</option>
+          <option value="Neurologie">Neurologie</option>
+          <option value="Pneumologie">Pneumologie</option>
+          <option value="Psychiatrie">Psychiatrie</option>
+          <option value="Rhumatologie">Rhumatologie</option>
+          <option value="Traumatologie">Traumatologie</option>
+        </select>
       </div>
       <button class="btn-add" id="addChapterBtn">➕ Ajouter le chapitre</button>
     </div>
@@ -1018,6 +1045,7 @@
 
   // ================================================================
   // 2. DONNÉES INITIALES (156 chapitres, 11 révisés)
+  //    Avec "Maladie infectieuse" en minuscules
   // ================================================================
   const DEFAULT_CHAPTERS = [
     // ---- Cardiologie (13, 0 révisés) ----
@@ -1049,31 +1077,31 @@
     { name: "Grosse jambe rouge aiguë", theme: "Dermatologie", done: false },
     { name: "Érythème noueux", theme: "Dermatologie", done: false },
     { name: "Gale (scabiose)", theme: "Dermatologie", done: false },
-    // ---- MALADIE INFECTIEUSE (24, 0 révisés) ----
-    { name: "Généralité sur la prévention et contrôle des infections", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Hygiène des mains", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Tenue de soignant", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Les précautions complémentaires d'hygiène", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Diarrhée aiguë fébrile", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Fièvre typhoïde", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Tétanos", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Bilharziose", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Peste", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Méningite et méningite encéphalites infectieuses", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Méningite virale", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Méningo encéphalite à liquide clair", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Paludisme", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Endocardite infectieuse", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Ascaridiose, anguillulose, taenisis", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Amibiase", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Toxoplasmose", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Rage", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Infections urinaires", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "AES", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "Arbovirose (dingue, ?)", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "PAC", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "IST", theme: "MALADIE INFECTIEUSE", done: false },
-    { name: "VIH", theme: "MALADIE INFECTIEUSE", done: false },
+    // ---- Maladie infectieuse (24, 0 révisés) ----
+    { name: "Généralité sur la prévention et contrôle des infections", theme: "Maladie infectieuse", done: false },
+    { name: "Hygiène des mains", theme: "Maladie infectieuse", done: false },
+    { name: "Tenue de soignant", theme: "Maladie infectieuse", done: false },
+    { name: "Les précautions complémentaires d'hygiène", theme: "Maladie infectieuse", done: false },
+    { name: "Diarrhée aiguë fébrile", theme: "Maladie infectieuse", done: false },
+    { name: "Fièvre typhoïde", theme: "Maladie infectieuse", done: false },
+    { name: "Tétanos", theme: "Maladie infectieuse", done: false },
+    { name: "Bilharziose", theme: "Maladie infectieuse", done: false },
+    { name: "Peste", theme: "Maladie infectieuse", done: false },
+    { name: "Méningite et méningite encéphalites infectieuses", theme: "Maladie infectieuse", done: false },
+    { name: "Méningite virale", theme: "Maladie infectieuse", done: false },
+    { name: "Méningo encéphalite à liquide clair", theme: "Maladie infectieuse", done: false },
+    { name: "Paludisme", theme: "Maladie infectieuse", done: false },
+    { name: "Endocardite infectieuse", theme: "Maladie infectieuse", done: false },
+    { name: "Ascaridiose, anguillulose, taenisis", theme: "Maladie infectieuse", done: false },
+    { name: "Amibiase", theme: "Maladie infectieuse", done: false },
+    { name: "Toxoplasmose", theme: "Maladie infectieuse", done: false },
+    { name: "Rage", theme: "Maladie infectieuse", done: false },
+    { name: "Infections urinaires", theme: "Maladie infectieuse", done: false },
+    { name: "AES", theme: "Maladie infectieuse", done: false },
+    { name: "Arbovirose (dingue, ?)", theme: "Maladie infectieuse", done: false },
+    { name: "PAC", theme: "Maladie infectieuse", done: false },
+    { name: "IST", theme: "Maladie infectieuse", done: false },
+    { name: "VIH", theme: "Maladie infectieuse", done: false },
     // ---- Neurologie (33, 2 révisés) ----
     { name: "AVC ischémique", theme: "Neurologie", done: true },
     { name: "Migraine", theme: "Neurologie", done: false },
@@ -1199,7 +1227,7 @@
     },
     {
       level: 2,
-      condition: (chapters) => isThemeComplete(chapters, "MALADIE INFECTIEUSE"),
+      condition: (chapters) => isThemeComplete(chapters, "Maladie infectieuse"),
       amount: 6.25,
       label: "Infectiologie terminée",
       emoji: "🦠"
@@ -1258,7 +1286,7 @@
   const addForm = $('addForm');
   const addChapterBtn = $('addChapterBtn');
   const chapterNameInput = $('chapterName');
-  const chapterThemeInput = $('chapterTheme');
+  const chapterThemeSelect = $('chapterThemeSelect');
   const rewardsList = $('rewardsList');
   const pointsDisplay = $('pointsDisplay');
   const toast = $('toast');
@@ -1371,7 +1399,7 @@
       let dotColor = '#D4788A';
       if (theme === 'Cardiologie') dotColor = '#E05A5A';
       else if (theme === 'Dermatologie') dotColor = '#C4607A';
-      else if (theme === 'MALADIE INFECTIEUSE') dotColor = '#F0A0B0';
+      else if (theme === 'Maladie infectieuse') dotColor = '#F0A0B0';
       else if (theme === 'Neurologie') dotColor = '#4CAF82';
       else if (theme === 'Pneumologie') dotColor = '#E67E22';
       else if (theme === 'Psychiatrie') dotColor = '#8E44AD';
@@ -1473,7 +1501,8 @@
     update[newKey] = newChapter;
     dataRef.update(update);
     chapterNameInput.value = '';
-    chapterThemeInput.value = '';
+    // Réinitialiser le select à la première option
+    chapterThemeSelect.selectedIndex = 0;
     addForm.classList.remove('open');
     addToggle.classList.remove('open');
   }
@@ -1522,11 +1551,10 @@
   });
 
   addChapterBtn.addEventListener('click', () => {
-    addChapter(chapterNameInput.value, chapterThemeInput.value);
+    addChapter(chapterNameInput.value, chapterThemeSelect.value);
   });
 
   chapterNameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addChapterBtn.click(); });
-  chapterThemeInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addChapterBtn.click(); });
 
   filterTabs.forEach(tab => {
     tab.addEventListener('click', () => {
